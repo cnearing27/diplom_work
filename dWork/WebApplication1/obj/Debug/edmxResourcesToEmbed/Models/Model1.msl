@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище test1ModelContainer" CdmEntityContainer="test1Entities">
+    <EntitySetMapping Name="payments">
+      <EntityTypeMapping TypeName="test1Model.payments">
+        <MappingFragment StoreEntitySet="payments">
+          <ScalarProperty Name="ID_payment" ColumnName="ID_payment" />
+          <ScalarProperty Name="ID_worker" ColumnName="ID_worker" />
+          <ScalarProperty Name="sum_p" ColumnName="sum_p" />
+          <ScalarProperty Name="date_p" ColumnName="date_p" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="pos">
+      <EntityTypeMapping TypeName="test1Model.pos">
+        <MappingFragment StoreEntitySet="pos">
+          <ScalarProperty Name="ID_pos" ColumnName="ID_pos" />
+          <ScalarProperty Name="pos_name" ColumnName="pos_name" />
+          <ScalarProperty Name="pos_salary" ColumnName="pos_salary" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="test1Model.users">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="ID_user" ColumnName="ID_user" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="pass" ColumnName="pass" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="w_shedule">
+      <EntityTypeMapping TypeName="test1Model.w_shedule">
+        <MappingFragment StoreEntitySet="w_shedule">
+          <ScalarProperty Name="ID_line" ColumnName="ID_line" />
+          <ScalarProperty Name="sh_date" ColumnName="sh_date" />
+          <ScalarProperty Name="ID_worker" ColumnName="ID_worker" />
+          <ScalarProperty Name="visit" ColumnName="visit" />
+          <ScalarProperty Name="day_gain" ColumnName="day_gain" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="workers">
+      <EntityTypeMapping TypeName="test1Model.workers">
+        <MappingFragment StoreEntitySet="workers">
+          <ScalarProperty Name="ID_worker" ColumnName="ID_worker" />
+          <ScalarProperty Name="FIO" ColumnName="FIO" />
+          <ScalarProperty Name="ID_pos" ColumnName="ID_pos" />
+          <ScalarProperty Name="day_start" ColumnName="day_start" />
+          <ScalarProperty Name="N_card" ColumnName="N_card" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище test1Model.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище test1Model.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище test1Model.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище test1Model.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="test1Model.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище test1Model.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="test1Model.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище test1Model.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище test1Model.sp_upgraddiagrams" />
+  </EntityContainerMapping>
+</Mapping>

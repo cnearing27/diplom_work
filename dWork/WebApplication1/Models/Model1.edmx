@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище test1Model" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="payments">
+          <Key>
+            <PropertyRef Name="ID_payment" />
+          </Key>
+          <Property Name="ID_payment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_worker" Type="int" Nullable="false" />
+          <Property Name="sum_p" Type="float" Nullable="false" />
+          <Property Name="date_p" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="pos">
+          <Key>
+            <PropertyRef Name="ID_pos" />
+          </Key>
+          <Property Name="ID_pos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pos_name" Type="nvarchar(max)" />
+          <Property Name="pos_salary" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="ID_user" />
+          </Key>
+          <Property Name="ID_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nvarchar(max)" />
+          <Property Name="pass" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="w_shedule">
+          <Key>
+            <PropertyRef Name="ID_line" />
+          </Key>
+          <Property Name="ID_line" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sh_date" Type="datetime" Nullable="false" />
+          <Property Name="ID_worker" Type="int" Nullable="false" />
+          <Property Name="visit" Type="bit" Nullable="false" />
+          <Property Name="day_gain" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="workers">
+          <Key>
+            <PropertyRef Name="ID_worker" />
+          </Key>
+          <Property Name="ID_worker" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar(max)" />
+          <Property Name="ID_pos" Type="int" Nullable="false" />
+          <Property Name="day_start" Type="datetime" Nullable="false" />
+          <Property Name="N_card" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_payments_dbo_workers_ID_worker">
+          <End Role="workers" Type="Self.workers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="payments" Type="Self.payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workers">
+              <PropertyRef Name="ID_worker" />
+            </Principal>
+            <Dependent Role="payments">
+              <PropertyRef Name="ID_worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_w_shedule_dbo_workers_ID_worker">
+          <End Role="workers" Type="Self.workers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="w_shedule" Type="Self.w_shedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workers">
+              <PropertyRef Name="ID_worker" />
+            </Principal>
+            <Dependent Role="w_shedule">
+              <PropertyRef Name="ID_worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_workers_dbo_pos_ID_pos">
+          <End Role="pos" Type="Self.pos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="workers" Type="Self.workers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pos">
+              <PropertyRef Name="ID_pos" />
+            </Principal>
+            <Dependent Role="workers">
+              <PropertyRef Name="ID_pos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище test1ModelContainer">
+          <EntitySet Name="payments" EntityType="Self.payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pos" EntityType="Self.pos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="w_shedule" EntityType="Self.w_shedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="workers" EntityType="Self.workers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_payments_dbo_workers_ID_worker" Association="Self.FK_dbo_payments_dbo_workers_ID_worker">
+            <End Role="workers" EntitySet="workers" />
+            <End Role="payments" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_w_shedule_dbo_workers_ID_worker" Association="Self.FK_dbo_w_shedule_dbo_workers_ID_worker">
+            <End Role="workers" EntitySet="workers" />
+            <End Role="w_shedule" EntitySet="w_shedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_workers_dbo_pos_ID_pos" Association="Self.FK_dbo_workers_dbo_pos_ID_pos">
+            <End Role="pos" EntitySet="pos" />
+            <End Role="workers" EntitySet="workers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="test1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="payments">
+          <Key>
+            <PropertyRef Name="ID_payment" />
+          </Key>
+          <Property Name="ID_payment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_worker" Type="Int32" Nullable="false" />
+          <Property Name="sum_p" Type="Double" Nullable="false" />
+          <Property Name="date_p" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="workers" Relationship="Self.FK_dbo_payments_dbo_workers_ID_worker" FromRole="payments" ToRole="workers" />
+        </EntityType>
+        <EntityType Name="pos">
+          <Key>
+            <PropertyRef Name="ID_pos" />
+          </Key>
+          <Property Name="ID_pos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pos_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="pos_salary" Type="Double" Nullable="false" />
+          <NavigationProperty Name="workers" Relationship="Self.FK_dbo_workers_dbo_pos_ID_pos" FromRole="pos" ToRole="workers" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="ID_user" />
+          </Key>
+          <Property Name="ID_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="pass" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="w_shedule">
+          <Key>
+            <PropertyRef Name="ID_line" />
+          </Key>
+          <Property Name="ID_line" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sh_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID_worker" Type="Int32" Nullable="false" />
+          <Property Name="visit" Type="Boolean" Nullable="false" />
+          <Property Name="day_gain" Type="Double" Nullable="false" />
+          <NavigationProperty Name="workers" Relationship="Self.FK_dbo_w_shedule_dbo_workers_ID_worker" FromRole="w_shedule" ToRole="workers" />
+        </EntityType>
+        <EntityType Name="workers">
+          <Key>
+            <PropertyRef Name="ID_worker" />
+          </Key>
+          <Property Name="ID_worker" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_pos" Type="Int32" Nullable="false" />
+          <Property Name="day_start" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="N_card" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="payments" Relationship="Self.FK_dbo_payments_dbo_workers_ID_worker" FromRole="workers" ToRole="payments" />
+          <NavigationProperty Name="pos" Relationship="Self.FK_dbo_workers_dbo_pos_ID_pos" FromRole="workers" ToRole="pos" />
+          <NavigationProperty Name="w_shedule" Relationship="Self.FK_dbo_w_shedule_dbo_workers_ID_worker" FromRole="workers" ToRole="w_shedule" />
+        </EntityType>
+        <Association Name="FK_dbo_payments_dbo_workers_ID_worker">
+          <End Role="workers" Type="Self.workers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="payments" Type="Self.payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workers">
+              <PropertyRef Name="ID_worker" />
+            </Principal>
+            <Dependent Role="payments">
+              <PropertyRef Name="ID_worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_workers_dbo_pos_ID_pos">
+          <End Role="pos" Type="Self.pos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="workers" Type="Self.workers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pos">
+              <PropertyRef Name="ID_pos" />
+            </Principal>
+            <Dependent Role="workers">
+              <PropertyRef Name="ID_pos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_w_shedule_dbo_workers_ID_worker">
+          <End Role="workers" Type="Self.workers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="w_shedule" Type="Self.w_shedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="workers">
+              <PropertyRef Name="ID_worker" />
+            </Principal>
+            <Dependent Role="w_shedule">
+              <PropertyRef Name="ID_worker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="test1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="payments" EntityType="Self.payments" />
+          <EntitySet Name="pos" EntityType="Self.pos" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <EntitySet Name="w_shedule" EntityType="Self.w_shedule" />
+          <EntitySet Name="workers" EntityType="Self.workers" />
+          <AssociationSet Name="FK_dbo_payments_dbo_workers_ID_worker" Association="Self.FK_dbo_payments_dbo_workers_ID_worker">
+            <End Role="workers" EntitySet="workers" />
+            <End Role="payments" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_workers_dbo_pos_ID_pos" Association="Self.FK_dbo_workers_dbo_pos_ID_pos">
+            <End Role="pos" EntitySet="pos" />
+            <End Role="workers" EntitySet="workers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_w_shedule_dbo_workers_ID_worker" Association="Self.FK_dbo_w_shedule_dbo_workers_ID_worker">
+            <End Role="workers" EntitySet="workers" />
+            <End Role="w_shedule" EntitySet="w_shedule" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(test1Model.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(test1Model.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище test1ModelContainer" CdmEntityContainer="test1Entities">
+          <EntitySetMapping Name="payments">
+            <EntityTypeMapping TypeName="test1Model.payments">
+              <MappingFragment StoreEntitySet="payments">
+                <ScalarProperty Name="ID_payment" ColumnName="ID_payment" />
+                <ScalarProperty Name="ID_worker" ColumnName="ID_worker" />
+                <ScalarProperty Name="sum_p" ColumnName="sum_p" />
+                <ScalarProperty Name="date_p" ColumnName="date_p" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pos">
+            <EntityTypeMapping TypeName="test1Model.pos">
+              <MappingFragment StoreEntitySet="pos">
+                <ScalarProperty Name="ID_pos" ColumnName="ID_pos" />
+                <ScalarProperty Name="pos_name" ColumnName="pos_name" />
+                <ScalarProperty Name="pos_salary" ColumnName="pos_salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="test1Model.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="ID_user" ColumnName="ID_user" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="w_shedule">
+            <EntityTypeMapping TypeName="test1Model.w_shedule">
+              <MappingFragment StoreEntitySet="w_shedule">
+                <ScalarProperty Name="ID_line" ColumnName="ID_line" />
+                <ScalarProperty Name="sh_date" ColumnName="sh_date" />
+                <ScalarProperty Name="ID_worker" ColumnName="ID_worker" />
+                <ScalarProperty Name="visit" ColumnName="visit" />
+                <ScalarProperty Name="day_gain" ColumnName="day_gain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="workers">
+            <EntityTypeMapping TypeName="test1Model.workers">
+              <MappingFragment StoreEntitySet="workers">
+                <ScalarProperty Name="ID_worker" ColumnName="ID_worker" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="ID_pos" ColumnName="ID_pos" />
+                <ScalarProperty Name="day_start" ColumnName="day_start" />
+                <ScalarProperty Name="N_card" ColumnName="N_card" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище test1Model.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище test1Model.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище test1Model.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище test1Model.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="test1Model.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище test1Model.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="test1Model.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище test1Model.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище test1Model.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

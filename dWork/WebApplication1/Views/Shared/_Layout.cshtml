@@ -1,0 +1,48 @@
+﻿@model IEnumerable<WebApplication1.Models.pos>
+@using WebApplication1.Models
+@{
+	ViewBag.Title = "Должности";
+}
+<link href="~/Content/Site.css" rel="stylesheet" />
+<div>
+	<h2>Заполните данные</h2>
+	@using (Html.BeginForm("GetPos", "ppos", FormMethod.Post))
+	{<div class="row mt">
+			<div class="col-md-3">
+				<p>Введите наименование: </p>
+			</div>
+			<div class="col-md-3">
+				<input class="inp" type="text" name="pos_name" required />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<p>Введите ставку: </p>
+			</div>
+			<div class="col-md-3">
+				<input class="inp" type="number" name="pos_salary" required />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<input class="btn btn-primary" type="submit" value="Добавить" />
+			</div>
+		</div>
+
+	}
+	<div>
+		<table>
+			<tr class="nametab">
+				<th><p>Должность</p></th>
+				<th><p>Ставка</p></th>
+			</tr>
+			@foreach (pos pos in Model)
+			{
+				<tr>
+					<td><p>@pos.pos_name</p></td>
+					<td><p>@pos.pos_salary</p></td>
+				</tr>
+			}
+		</table>
+	</div>
+</div>

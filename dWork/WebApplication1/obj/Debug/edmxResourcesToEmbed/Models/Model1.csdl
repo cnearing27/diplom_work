@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="test1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="payments">
+    <Key>
+      <PropertyRef Name="ID_payment" />
+    </Key>
+    <Property Name="ID_payment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID_worker" Type="Int32" Nullable="false" />
+    <Property Name="sum_p" Type="Double" Nullable="false" />
+    <Property Name="date_p" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="workers" Relationship="Self.FK_dbo_payments_dbo_workers_ID_worker" FromRole="payments" ToRole="workers" />
+  </EntityType>
+  <EntityType Name="pos">
+    <Key>
+      <PropertyRef Name="ID_pos" />
+    </Key>
+    <Property Name="ID_pos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pos_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="pos_salary" Type="Double" Nullable="false" />
+    <NavigationProperty Name="workers" Relationship="Self.FK_dbo_workers_dbo_pos_ID_pos" FromRole="pos" ToRole="workers" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="ID_user" />
+    </Key>
+    <Property Name="ID_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="pass" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="w_shedule">
+    <Key>
+      <PropertyRef Name="ID_line" />
+    </Key>
+    <Property Name="ID_line" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sh_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ID_worker" Type="Int32" Nullable="false" />
+    <Property Name="visit" Type="Boolean" Nullable="false" />
+    <Property Name="day_gain" Type="Double" Nullable="false" />
+    <NavigationProperty Name="workers" Relationship="Self.FK_dbo_w_shedule_dbo_workers_ID_worker" FromRole="w_shedule" ToRole="workers" />
+  </EntityType>
+  <EntityType Name="workers">
+    <Key>
+      <PropertyRef Name="ID_worker" />
+    </Key>
+    <Property Name="ID_worker" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FIO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ID_pos" Type="Int32" Nullable="false" />
+    <Property Name="day_start" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="N_card" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="payments" Relationship="Self.FK_dbo_payments_dbo_workers_ID_worker" FromRole="workers" ToRole="payments" />
+    <NavigationProperty Name="pos" Relationship="Self.FK_dbo_workers_dbo_pos_ID_pos" FromRole="workers" ToRole="pos" />
+    <NavigationProperty Name="w_shedule" Relationship="Self.FK_dbo_w_shedule_dbo_workers_ID_worker" FromRole="workers" ToRole="w_shedule" />
+  </EntityType>
+  <Association Name="FK_dbo_payments_dbo_workers_ID_worker">
+    <End Role="workers" Type="Self.workers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="payments" Type="Self.payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="workers">
+        <PropertyRef Name="ID_worker" />
+      </Principal>
+      <Dependent Role="payments">
+        <PropertyRef Name="ID_worker" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_workers_dbo_pos_ID_pos">
+    <End Role="pos" Type="Self.pos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="workers" Type="Self.workers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="pos">
+        <PropertyRef Name="ID_pos" />
+      </Principal>
+      <Dependent Role="workers">
+        <PropertyRef Name="ID_pos" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_w_shedule_dbo_workers_ID_worker">
+    <End Role="workers" Type="Self.workers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="w_shedule" Type="Self.w_shedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="workers">
+        <PropertyRef Name="ID_worker" />
+      </Principal>
+      <Dependent Role="w_shedule">
+        <PropertyRef Name="ID_worker" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="test1Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="payments" EntityType="Self.payments" />
+    <EntitySet Name="pos" EntityType="Self.pos" />
+    <EntitySet Name="users" EntityType="Self.users" />
+    <EntitySet Name="w_shedule" EntityType="Self.w_shedule" />
+    <EntitySet Name="workers" EntityType="Self.workers" />
+    <AssociationSet Name="FK_dbo_payments_dbo_workers_ID_worker" Association="Self.FK_dbo_payments_dbo_workers_ID_worker">
+      <End Role="workers" EntitySet="workers" />
+      <End Role="payments" EntitySet="payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_workers_dbo_pos_ID_pos" Association="Self.FK_dbo_workers_dbo_pos_ID_pos">
+      <End Role="pos" EntitySet="pos" />
+      <End Role="workers" EntitySet="workers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_w_shedule_dbo_workers_ID_worker" Association="Self.FK_dbo_w_shedule_dbo_workers_ID_worker">
+      <End Role="workers" EntitySet="workers" />
+      <End Role="w_shedule" EntitySet="w_shedule" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(test1Model.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(test1Model.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

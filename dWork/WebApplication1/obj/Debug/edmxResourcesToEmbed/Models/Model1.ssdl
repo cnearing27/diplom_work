@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище test1Model" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="payments">
+    <Key>
+      <PropertyRef Name="ID_payment" />
+    </Key>
+    <Property Name="ID_payment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_worker" Type="int" Nullable="false" />
+    <Property Name="sum_p" Type="float" Nullable="false" />
+    <Property Name="date_p" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="pos">
+    <Key>
+      <PropertyRef Name="ID_pos" />
+    </Key>
+    <Property Name="ID_pos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="pos_name" Type="nvarchar(max)" />
+    <Property Name="pos_salary" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="ID_user" />
+    </Key>
+    <Property Name="ID_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login" Type="nvarchar(max)" />
+    <Property Name="pass" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="w_shedule">
+    <Key>
+      <PropertyRef Name="ID_line" />
+    </Key>
+    <Property Name="ID_line" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sh_date" Type="datetime" Nullable="false" />
+    <Property Name="ID_worker" Type="int" Nullable="false" />
+    <Property Name="visit" Type="bit" Nullable="false" />
+    <Property Name="day_gain" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="workers">
+    <Key>
+      <PropertyRef Name="ID_worker" />
+    </Key>
+    <Property Name="ID_worker" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar(max)" />
+    <Property Name="ID_pos" Type="int" Nullable="false" />
+    <Property Name="day_start" Type="datetime" Nullable="false" />
+    <Property Name="N_card" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_dbo_payments_dbo_workers_ID_worker">
+    <End Role="workers" Type="Self.workers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="payments" Type="Self.payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="workers">
+        <PropertyRef Name="ID_worker" />
+      </Principal>
+      <Dependent Role="payments">
+        <PropertyRef Name="ID_worker" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_w_shedule_dbo_workers_ID_worker">
+    <End Role="workers" Type="Self.workers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="w_shedule" Type="Self.w_shedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="workers">
+        <PropertyRef Name="ID_worker" />
+      </Principal>
+      <Dependent Role="w_shedule">
+        <PropertyRef Name="ID_worker" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_workers_dbo_pos_ID_pos">
+    <End Role="pos" Type="Self.pos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="workers" Type="Self.workers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="pos">
+        <PropertyRef Name="ID_pos" />
+      </Principal>
+      <Dependent Role="workers">
+        <PropertyRef Name="ID_pos" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="Хранилище test1ModelContainer">
+    <EntitySet Name="payments" EntityType="Self.payments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="pos" EntityType="Self.pos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="w_shedule" EntityType="Self.w_shedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="workers" EntityType="Self.workers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_payments_dbo_workers_ID_worker" Association="Self.FK_dbo_payments_dbo_workers_ID_worker">
+      <End Role="workers" EntitySet="workers" />
+      <End Role="payments" EntitySet="payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_w_shedule_dbo_workers_ID_worker" Association="Self.FK_dbo_w_shedule_dbo_workers_ID_worker">
+      <End Role="workers" EntitySet="workers" />
+      <End Role="w_shedule" EntitySet="w_shedule" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_workers_dbo_pos_ID_pos" Association="Self.FK_dbo_workers_dbo_pos_ID_pos">
+      <End Role="pos" EntitySet="pos" />
+      <End Role="workers" EntitySet="workers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
